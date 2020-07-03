@@ -2,8 +2,7 @@ const initState = {
   isAuthed: false,
   formSuccess: false,
   formFailed: false,
-  campLoaded: null,
-  camp: null,
+  groups: {},
 };
 
 const myReducer = (state = initState, action) => {
@@ -23,29 +22,6 @@ const myReducer = (state = initState, action) => {
         formFailed: true,
       };
 
-    case "SIGNUP_SUCCESS":
-      console.log("Signup success");
-      return {
-        ...state,
-        formSuccess: true,
-      };
-
-    case "SIGNUP_ERROR":
-      console.log("Signup error");
-      console.log(action.err.message);
-      return {
-        ...state,
-        formFailed: true,
-      };
-
-    case "CAMP_CREATE_ERROR":
-      console.log("Camp creation error");
-      console.log(action.err.message);
-      return {
-        ...state,
-        formFailed: true,
-      };
-
     case "SIGNOUT_SUCCESS":
       console.log("Signout success");
       return {
@@ -53,87 +29,11 @@ const myReducer = (state = initState, action) => {
         isAuthed: false,
       };
 
-    case "CAMP_RETRIEVED":
-      console.log("Camp retrieved:", action.camp);
+    case "FETCH_SUCCESS":
+      console.log("Fetch success");
       return {
         ...state,
-        camp: action.camp,
-        campLoaded: action.campCode,
-      };
-
-    case "ANN_CREATED":
-      console.log("Announcement created successfully");
-      return {
-        ...state,
-        formSuccess: true,
-      };
-
-    case "ANN_DELETED":
-      console.log("Announcement deleted successfully");
-      return {
-        ...state,
-      };
-
-    case "ANN_EDITED":
-      console.log("Announcement edited successfully");
-      return {
-        ...state,
-        formSuccess: true,
-      };
-
-    case "QNA_ASKED":
-      console.log("Question asked successfully");
-      return {
-        ...state,
-        formSuccess: true,
-      };
-
-    case "QNA_DELETED":
-      console.log("Question deleted successfully");
-      return {
-        ...state,
-      };
-
-    case "QNA_ANSWERED":
-      console.log("Question answered successfully");
-      return {
-        ...state,
-        formSuccess: true,
-      };
-
-    case "CAMP_EDITED":
-      console.log("Camp edited successfully");
-      return {
-        ...state,
-        formSuccess: true,
-      };
-
-    case "REMINDER_EDITED":
-      console.log("Reminder edited successfully");
-      return {
-        ...state,
-        formSuccess: true,
-      };
-
-    case "REMINDER_CREATED":
-      console.log("Reminder created successfully");
-      return {
-        ...state,
-        formSuccess: true,
-      };
-
-    case "REMINDER_DELETED":
-      console.log("Reminder deleted successfully");
-      return {
-        ...state,
-        formSuccess: true,
-      };
-
-    case "PASSWORD_EDITED":
-      console.log("Password edited successfully");
-      return {
-        ...state,
-        formSuccess: true,
+        groups: action.groups,
       };
 
     case "RESET_FORM":
@@ -142,38 +42,6 @@ const myReducer = (state = initState, action) => {
         ...state,
         formSuccess: false,
         formFailed: false,
-      };
-    case "CAMP_DELETED":
-      return {
-        initState,
-      };
-
-    case "REPORT_CREATED":
-      console.log("Report created successfully");
-      return {
-        ...state,
-        formSuccess: true,
-      };
-
-    case "REPORT_DELETED":
-      console.log("Report deleted successfully");
-      return {
-        ...state,
-        formSuccess: true,
-      };
-
-    case "GROUP_CREATED":
-      console.log("Group created successfully");
-      return {
-        ...state,
-        formSuccess: true,
-      };
-
-    case "GROUP_DELETED":
-      console.log("Group deleted successfully");
-      return {
-        ...state,
-        formSuccess: true,
       };
 
     case "ADD_POINTS":
@@ -196,6 +64,7 @@ const myReducer = (state = initState, action) => {
         ...state,
         confirmForm: true,
       };
+
     case "CONFIRMFORM_CONFIRM":
       console.log("Confirm form confirm executing callback successfully");
       return {

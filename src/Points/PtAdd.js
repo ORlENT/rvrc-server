@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { Header, SubmitButton, CenterBox, Field, Form } from "../../../UI";
-import { addPt } from "../../../store/actions";
-import ValidationError from "../../../errors/ValidationError";
+import { Header, SubmitButton, CenterBox, Field, Form } from "../UI";
+import { addPt } from "../store/actions";
+import ValidationError from "../errors/ValidationError";
 
 class PtAdd extends Component {
   validate = (state) => {
@@ -42,7 +42,7 @@ class PtAdd extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    grpInfo: state.store.camp.groups,
+    grpInfo: state.store.groups,
   };
 };
 

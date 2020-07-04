@@ -4,10 +4,9 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Button, IconButton } from "@material-ui/core";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
-import { AccountCircle, ArrowBack } from "@material-ui/icons";
+import { AccountCircle } from "@material-ui/icons";
 import AdminLogin from "./AdminLogin";
 import { signOut } from "../store/actions";
-import copyToClipboard from "../functions/copyToClipboard";
 
 class NavBar extends Component {
   state = {
@@ -29,7 +28,7 @@ class NavBar extends Component {
   }
 
   render() {
-    const { camp, history, width, isAuthed, signOut } = this.props;
+    const { width, isAuthed, signOut } = this.props;
     return (
       <div
         style={{
@@ -47,21 +46,6 @@ class NavBar extends Component {
             height: "60px",
           }}
         >
-          {/*Back button*/}
-          <IconButton
-            color="primary"
-            style={{
-              gridColumn: "1",
-              gridRow: "1",
-              justifySelf: "start",
-              zIndex: "1",
-              width: "60px",
-            }}
-            onClick={() => history.goBack()}
-          >
-            <ArrowBack />
-          </IconButton>
-
           {/*Admin login button*/}
           {isWidthDown("xs", width) ? (
             //MOBILE VERSION
@@ -105,14 +89,8 @@ class NavBar extends Component {
             }}
           >
             <h2 style={{ color: "#fff", textAlign: "center", margin: "0px" }}>
-              {camp.campName}
+              War Games
             </h2>
-            <h5
-              style={{ color: "#ff9800", textAlign: "center", margin: "0px" }}
-              onClick={() => copyToClipboard(camp.campCode)}
-            >
-              @{camp.campCode}
-            </h5>
           </div>
         </div>
 

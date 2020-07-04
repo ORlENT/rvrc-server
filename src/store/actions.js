@@ -1,7 +1,7 @@
 export const signIn = (state) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
-    const email = getState().store.camp.campCode + "@orient.org";
-    console.log("Signing in with:", email, state.password);
+    const email = "rvrc@orient.org";
+    console.log("Signing in");
 
     getFirebase()
       .auth()
@@ -9,7 +9,7 @@ export const signIn = (state) => {
       .then(() => {
         dispatch({ type: "LOGIN_SUCCESS" });
 
-        getFirestore().collection("camps").get();
+        getFirestore().collection("groups").get();
       })
       .catch((err) => {
         dispatch({ type: "LOGIN_ERROR", err });
@@ -92,51 +92,47 @@ export const transferPt = (state, props) => async (
   getState,
   { getFirestore }
 ) => {
+  const points = parseInt(state.point);
   console.log("Transferring points");
-  console.log(state.point);
+  console.log(points);
   console.log(state.groupname);
   console.log(state.groupname2);
-  await getFirestore()
-    .collection("camps")
-    .where("campCode", "==", getState().store.camp.campCode)
-    .get()
-    .then((querySnapshot) => {
-      const camp = querySnapshot.docs[0].ref;
-      camp
-        .collection("groups")
-        .doc(state.groupname)
-        .update({
-          point:
-            parseInt(getState().store.camp.groups[state.groupname].point) -
-            parseInt(state.point),
-          timestamp: getFirestore().Timestamp.now(),
-        })
-        .catch((err) => {
-          console.log("Error transferring points");
-          console.log(err);
-        });
 
-      camp
-        .collection("groups")
-        .doc(state.groupname2)
-        .update({
-          point:
-            parseInt(getState().store.camp.groups[state.groupname2].point) +
-            parseInt(state.point),
-          timestamp: getFirestore().Timestamp.now(),
-        })
-        .then(() => {
-          dispatch({ type: "TRANSFER_POINTS" });
-        })
-        .catch((err) => {
-          console.log("Error transfering points");
-          console.log(err);
+  getFirestore()
+    .collection("groups")
+    .where("name", "==", state.groupname)
+    .limit(1)
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        doc.ref.update({
+          points: getFirestore().FieldValue.increment(-points),
         });
+      });
     })
     .catch((err) => {
-      console.log("Error retrieving camp");
+      console.log("Error transferring points");
       console.log(err);
     });
+
+  getFirestore()
+    .collection("groups")
+    .where("name", "==", state.groupname2)
+    .limit(1)
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        doc.ref.update({
+          points: getFirestore().FieldValue.increment(points),
+        });
+      });
+    })
+    .catch((err) => {
+      console.log("Error transferring points");
+      console.log(err);
+    });
+
+  dispatch({ type: "TRANSFER_POINTS" });
 };
 
 export const resetForm = () => {

@@ -3,6 +3,7 @@ const initState = {
   formSuccess: false,
   formFailed: false,
   groups: {},
+  loaded: false,
 };
 
 const myReducer = (state = initState, action) => {
@@ -34,6 +35,7 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         groups: action.groups,
+        loaded: true,
       };
 
     case "RESET_FORM":

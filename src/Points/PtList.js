@@ -4,7 +4,7 @@ import { Header, CenterBox, PtCard, NavButton } from "../UI";
 
 class PtList extends Component {
   render() {
-    let { grpInfo, match, isAuthed } = this.props;
+    let { grpInfo, isAuthed } = this.props;
     return (
       <CenterBox>
         {/*No group found*/}
@@ -14,7 +14,7 @@ class PtList extends Component {
 
         {/*Transfer points button (Admin only)*/}
         {isAuthed && (
-          <NavButton admin to={`${match.url}/transfer`}>
+          <NavButton admin to={`/transfer`}>
             Transfer points
           </NavButton>
         )}

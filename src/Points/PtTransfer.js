@@ -8,12 +8,6 @@ import { Header, SubmitButton, CenterBox, Field, Form, Select } from "../UI";
 import { transferPt } from "../store/actions";
 
 class PtTransfer extends Component {
-  validate = (state) => {
-    if (isNaN(state.point)) {
-      throw new ValidationError("point", "Point must be numerical characters.");
-    }
-  };
-
   successHandler(state, props) {
     props.history.goBack();
   }
@@ -27,7 +21,6 @@ class PtTransfer extends Component {
           onSubmit={this.props.transferPt}
           onSuccess={this.successHandler}
           history={this.props.history}
-          validate={this.validate}
         >
           <Select
             label="From: Group Name"
@@ -39,7 +32,9 @@ class PtTransfer extends Component {
             id="groupname2"
             object={this.props.grpInfo}
           ></Select>
-          <Field id="point">Points</Field>
+          <Field id="point" type="number">
+            Points
+          </Field>
           <SubmitButton>Transfer points</SubmitButton>
         </Form>
       </CenterBox>
@@ -48,14 +43,14 @@ class PtTransfer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  var grpInfo = Object.keys(state.store.groups).map((key) => {
+  /* var grpInfo = Object.keys(state.store.groups).map((key) => {
     return {
       key: key,
-      text: state.store.groups[key].groupName,
+      text: state.store.groups[key].name,
     };
-  });
+  }); */
   return {
-    grpInfo: grpInfo,
+    grpInfo: state.store.groups,
   };
 };
 

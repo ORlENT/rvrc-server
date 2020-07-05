@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import ValidationError from "../errors/ValidationError";
 
 import { Header, SubmitButton, CenterBox, Field, Form, Select } from "../UI";
 import { transferPt } from "../store/actions";

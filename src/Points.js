@@ -14,17 +14,6 @@ class Point extends Component {
     this.props.fetchInfo();
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
-      this.onRouteChanged();
-    }
-  }
-
-  onRouteChanged() {
-    console.log("Route Changed");
-    this.props.fetchInfo();
-  }
-
   render() {
     const { loaded } = this.props;
 

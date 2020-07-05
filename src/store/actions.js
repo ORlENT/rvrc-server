@@ -32,13 +32,13 @@ export const signOut = () => {
 
 export const fetchInfo = () => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
-    console.log("Fetching info");
     getFirestore()
       .collection("groups")
-      .get()
-      .then((querySnapshot) => {
+      .onSnapshot((snapshot) => {
+        console.log("Fetching info");
+
         var groups = {};
-        querySnapshot.forEach((doc) => {
+        snapshot.forEach((doc) => {
           groups[doc.id] = doc.data();
         });
 
@@ -46,10 +46,6 @@ export const fetchInfo = () => {
           type: "FETCH_SUCCESS",
           groups: groups,
         });
-      })
-      .catch((err) => {
-        console.log("Error fetching info");
-        console.log(err);
       });
   };
 };

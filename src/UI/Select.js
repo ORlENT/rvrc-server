@@ -77,11 +77,13 @@ const SelectField = ({
       {...rest}
     >
       {object &&
-        Object.keys(object).map((key) => (
-          <MenuItem value={object[key].name} key={object[key].key}>
-            {object[key].name}
-          </MenuItem>
-        ))}
+        Object.keys(object).map((key) => {
+          return (
+            <MenuItem value={object[key].name} key={key}>
+              {object[key].name}
+            </MenuItem>
+          );
+        })}
     </StyledField>
   );
 };

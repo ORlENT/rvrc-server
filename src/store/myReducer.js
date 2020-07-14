@@ -3,6 +3,7 @@ const initState = {
   formSuccess: false,
   formFailed: false,
   groups: {},
+  transactions: {},
   myGroup: null,
   loaded: false,
 };
@@ -34,12 +35,21 @@ const myReducer = (state = initState, action) => {
         myGroup: null,
       };
 
-    case "FETCH_SUCCESS":
-      console.log("Fetch success");
+    case "FETCHED_GROUPS":
+      console.log("Fetched groups");
+
       return {
         ...state,
         groups: action.groups,
         loaded: true,
+      };
+
+    case "FETCHED_TRANSACTIONS":
+      console.log("Fetched transactions");
+
+      return {
+        ...state,
+        transactions: action.transactions,
       };
 
     case "RESET_FORM":

@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 
 import AdminRoute from "./Routes/AdminRoute";
 import PtList from "./Points/PtList";
-import PtAdd from "./Points/PtAdd";
 import PtTransfer from "./Points/PtTransfer";
 import { NavBar, LoadingScreen } from "./UI";
 import { fetchInfo } from "./store/actions";

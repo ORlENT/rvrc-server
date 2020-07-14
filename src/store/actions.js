@@ -37,7 +37,7 @@ export const fetchInfo = () => {
       .orderBy("points", "desc")
       .orderBy("name", "asc")
       .onSnapshot((snapshot) => {
-        console.log("Fetching info");
+        console.log("Fetching groups");
 
         var groups = {};
         snapshot.forEach((doc) => {
@@ -45,8 +45,25 @@ export const fetchInfo = () => {
         });
 
         dispatch({
-          type: "FETCH_SUCCESS",
+          type: "FETCHED_GROUPS",
           groups: groups,
+        });
+      });
+
+    getFirestore()
+      .collection("transactions")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) => {
+        console.log("Fetching transactions");
+
+        var transactions = {};
+        snapshot.forEach((doc) => {
+          transactions[doc.id] = doc.data();
+        });
+
+        dispatch({
+          type: "FETCHED_TRANSACTIONS",
+          transactions: transactions,
         });
       });
   };
@@ -155,7 +172,7 @@ export const transferPt = (state, props) => async (
   console.log("Attacker: " + props.groupname2);
   console.log("Points: " + points);
 
-  getFirestore()
+  const from = await getFirestore()
     .collection("groups")
     .where("name", "==", props.groupname)
     .limit(1)
@@ -172,7 +189,7 @@ export const transferPt = (state, props) => async (
       console.log(err);
     });
 
-  getFirestore()
+  const to = await getFirestore()
     .collection("groups")
     .where("name", "==", props.groupname2)
     .limit(1)
@@ -189,7 +206,22 @@ export const transferPt = (state, props) => async (
       console.log(err);
     });
 
-  dispatch({ type: "TRANSFER_POINTS" });
+  const log = await getFirestore()
+    .collection("transactions")
+    .add({
+      from: props.groupname,
+      to: props.groupname2,
+      points: points,
+      timestamp: getFirestore().Timestamp.now(),
+    })
+    .catch((err) => {
+      console.log("Error transferring points");
+      console.log(err);
+    });
+
+  Promise.all([from, to, log]).then(() => {
+    dispatch({ type: "TRANSFER_POINTS" });
+  });
 };
 
 export const resetForm = () => {

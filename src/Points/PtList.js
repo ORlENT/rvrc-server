@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Header, CenterBox, PtCard, NavButton } from "../UI";
+import { Header, CenterBox, PtCard, TransCard, NavButton } from "../UI";
 
 class PtList extends Component {
   render() {
@@ -45,13 +45,7 @@ class PtList extends Component {
           {/*Group List*/}
           {transactions &&
             Object.keys(transactions).map((key) => (
-              <PtCard
-                key={key}
-                subtitle={
-                  transactions[key].from + " ⚔️ by " + transactions[key].to
-                }
-                content={transactions[key].points}
-              />
+              <TransCard key={key} t={transactions[key]} />
             ))}
         </CenterBox>
       </div>

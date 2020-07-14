@@ -2,7 +2,7 @@ import { NavButton, SubmitButton } from "./Button";
 import CenterBox from "./CenterBox";
 import Header from "./Header";
 import Field from "./Field";
-import { PtCard } from "./SummaryCard";
+import { PtCard, TransCard } from "./SummaryCard";
 import NavBar from "./NavBar";
 import { LoadingScreen, LoadingScreenSmall } from "./LoadingScreen";
 import Form from "./Form";
@@ -18,6 +18,7 @@ export {
   Header,
   Field,
   PtCard,
+  TransCard,
   NavBar,
   LoadingScreen,
   LoadingScreenSmall,

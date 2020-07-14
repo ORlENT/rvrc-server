@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import {
   Header,
   PtCard,
+  TransCard,
   SubmitButton,
   CenterBox,
   Field,
@@ -89,10 +90,7 @@ class PtTransfer extends Component {
           )}
 
           {/*Group List*/}
-          {myTransactions &&
-            myTransactions.map((t) => (
-              <PtCard subtitle={t.from + " ⚔️ by " + t.to} content={t.points} />
-            ))}
+          {myTransactions && myTransactions.map((t) => <TransCard t={t} />)}
         </CenterBox>
       </div>
     );

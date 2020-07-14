@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent } from "@material-ui/core";
 
-export const PtCard = ({ title, content, ...rest }) => (
+export const PtCard = ({ title, subtitle, content, ...rest }) => (
   <Card
     style={{
       backgroundColor: "#555",
@@ -40,14 +40,21 @@ export const PtCard = ({ title, content, ...rest }) => (
         {content}
       </p>
       {/*title*/}
-      <h3
+      <p
         style={{
-          color: "#fff",
+          color: "#bbb",
           margin: "0px",
         }}
       >
-        {title}
-      </h3>
+        <b
+          style={{
+            color: "#fff",
+          }}
+        >
+          {title}
+        </b>
+        {" " + subtitle}
+      </p>
     </CardContent>
   </Card>
 );

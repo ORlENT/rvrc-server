@@ -34,6 +34,8 @@ export const fetchInfo = () => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     getFirestore()
       .collection("groups")
+      .orderBy("points", "desc")
+      .orderBy("name", "asc")
       .onSnapshot((snapshot) => {
         console.log("Fetching info");
 
@@ -101,6 +103,35 @@ export const chooseAttacker = (state, props) => (
       querySnapshot.forEach(function (doc) {
         doc.ref.update({
           attacker: state.groupname2,
+        });
+      });
+    })
+    .then(() => {
+      dispatch({ type: "ATTACKER_CHOSEN" });
+    })
+    .catch((err) => {
+      console.log("Error choosing attacker");
+      console.log(err);
+    });
+};
+
+export const clearAttacker = (state, props) => (
+  dispatch,
+  getState,
+  { getFirestore }
+) => {
+  console.log("Clearing Attacker");
+  console.log("Station: " + props.groupname);
+
+  getFirestore()
+    .collection("groups")
+    .where("name", "==", props.groupname)
+    .limit(1)
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        doc.ref.update({
+          attacker: null,
         });
       });
     })

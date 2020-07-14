@@ -25,6 +25,9 @@ class PtList extends Component {
             <PtCard
               key={key}
               title={grpInfo[key].name}
+              subtitle={
+                grpInfo[key].attacker ? "🛡️⚔️ " + grpInfo[key].attacker : ""
+              }
               content={grpInfo[key].points}
             />
           ))}

@@ -2,36 +2,61 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { Header, SubmitButton, CenterBox, Field, Form, Select } from "../UI";
-import { chooseAttacker, transferPt } from "../store/actions";
+import { chooseAttacker, clearAttacker, transferPt } from "../store/actions";
 
 class PtTransfer extends Component {
   render() {
+    const {
+      myGroup,
+      grpInfo,
+      attacker,
+      chooseAttacker,
+      clearAttacker,
+      transferPt,
+    } = this.props;
     return (
       <CenterBox>
-        <Header>{this.props.myGroup} Station Master</Header>
-        <Form
-          admin
-          onSubmit={this.props.chooseAttacker}
-          groupname={this.props.myGroup}
-        >
-          <Select
-            label="Attacking OG"
-            id="groupname2"
-            object={this.props.grpInfo}
-          />
-          <SubmitButton>Lock in Attacker</SubmitButton>
-        </Form>
-        <Form
-          admin
-          onSubmit={this.props.transferPt}
-          groupname={this.props.myGroup}
-          groupname2={this.props.attacker}
-        >
-          <Field id="point" type="number">
-            Points given to Attacking OG
-          </Field>
-          <SubmitButton>Transfer points</SubmitButton>
-        </Form>
+        <Header>{myGroup} Station Master</Header>
+
+        {/* CHOOSING ATTACKER */}
+        {attacker ? (
+          //ATTACKER CHOSEN
+          <Form admin onSubmit={clearAttacker} groupname={myGroup}>
+            <Select label={attacker} disabled />
+            <SubmitButton secondary>Clear Attacker</SubmitButton>
+          </Form>
+        ) : (
+          //ATTACKER NOT YET CHOSEN
+          <Form admin onSubmit={chooseAttacker} groupname={myGroup}>
+            <Select label="Attacking OG" id="groupname2" object={grpInfo} />
+            <SubmitButton>Lock in Attacker</SubmitButton>
+          </Form>
+        )}
+
+        {/* TRANSFERRING POINTS */}
+        {attacker ? (
+          //ATTACKER CHOSEN
+          <Form
+            admin
+            onSubmit={transferPt}
+            onSuccess={clearAttacker}
+            groupname={myGroup}
+            groupname2={attacker}
+          >
+            <Field id="point" type="number">
+              Points given to Attacking OG
+            </Field>
+            <SubmitButton>Transfer points</SubmitButton>
+          </Form>
+        ) : (
+          //ATTACKER NOT YET CHOSEN
+          <Form admin>
+            <Field id="point" type="number" disabled>
+              Points given to Attacking OG
+            </Field>
+            <SubmitButton disabled>Transfer points</SubmitButton>
+          </Form>
+        )}
       </CenterBox>
     );
   }
@@ -58,6 +83,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     chooseAttacker: (state, props) => dispatch(chooseAttacker(state, props)),
+    clearAttacker: (state, props) => dispatch(clearAttacker(state, props)),
     transferPt: (state, props) => dispatch(transferPt(state, props)),
   };
 };

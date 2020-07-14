@@ -13,11 +13,11 @@ class PtList extends Component {
         )}
 
         {/*Transfer points button (Admin only)*/}
-        {isAuthed && (
+        {/* {isAuthed && (
           <NavButton admin to={`/transfer`}>
             Transfer points
           </NavButton>
-        )}
+        )} */}
 
         {/*Group List*/}
         {grpInfo &&
@@ -26,7 +26,7 @@ class PtList extends Component {
               key={key}
               title={grpInfo[key].name}
               subtitle={
-                grpInfo[key].attacker ? "🛡️⚔️ " + grpInfo[key].attacker : ""
+                grpInfo[key].attacker ? "⚔️ by " + grpInfo[key].attacker : ""
               }
               content={grpInfo[key].points}
             />

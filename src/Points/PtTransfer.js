@@ -1,7 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { Header, SubmitButton, CenterBox, Field, Form, Select } from "../UI";
+import {
+  Header,
+  PtCard,
+  SubmitButton,
+  CenterBox,
+  Field,
+  Form,
+  Select,
+} from "../UI";
 import { chooseAttacker, clearAttacker, transferPt } from "../store/actions";
 
 class PtTransfer extends Component {
@@ -10,12 +18,20 @@ class PtTransfer extends Component {
       myGroup,
       grpInfo,
       attacker,
+      points,
       chooseAttacker,
       clearAttacker,
       transferPt,
     } = this.props;
     return (
       <CenterBox>
+        {/* STATION OVERVIEW */}
+        <PtCard
+          title={myGroup}
+          subtitle={attacker ? "⚔️ by " + attacker : ""}
+          content={points}
+        />
+
         <Header>{myGroup} Station Master</Header>
 
         {/* CHOOSING ATTACKER */}
@@ -66,10 +82,12 @@ const mapStateToProps = (state) => {
   const grpInfo = state.store.groups;
   const myGroup = state.store.myGroup;
   var attacker = null;
+  var points = null;
 
   Object.keys(grpInfo).forEach((key) => {
     if (grpInfo[key].name == myGroup) {
       attacker = grpInfo[key].attacker;
+      points = grpInfo[key].points;
     }
   });
 
@@ -77,6 +95,7 @@ const mapStateToProps = (state) => {
     grpInfo: grpInfo,
     myGroup: myGroup,
     attacker: attacker,
+    points: points,
   };
 };
 

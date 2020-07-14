@@ -57,6 +57,13 @@ const myReducer = (state = initState, action) => {
         formSuccess: true,
       };
 
+    case "ATTACKER_CHOSEN":
+      console.log("Attacker chosen successfully");
+      return {
+        ...state,
+        formSuccess: true,
+      };
+
     case "TRANSFER_POINTS":
       console.log("Transfer points successfully");
       return {

@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import { compose } from "redux";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
 
 import { Header, SubmitButton, CenterBox, Field, Form, Select } from "../UI";
-import { transferPt } from "../store/actions";
+import { chooseAttacker, transferPt } from "../store/actions";
 
 class PtTransfer extends Component {
   render() {
@@ -13,16 +11,22 @@ class PtTransfer extends Component {
         <Header>{this.props.myGroup} Station Master</Header>
         <Form
           admin
-          onSubmit={this.props.transferPt}
-          onSuccess={this.successHandler}
-          history={this.props.history}
+          onSubmit={this.props.chooseAttacker}
           groupname={this.props.myGroup}
         >
           <Select
             label="Attacking OG"
             id="groupname2"
             object={this.props.grpInfo}
-          ></Select>
+          />
+          <SubmitButton>Lock in Attacker</SubmitButton>
+        </Form>
+        <Form
+          admin
+          onSubmit={this.props.transferPt}
+          groupname={this.props.myGroup}
+          groupname2={this.props.attacker}
+        >
           <Field id="point" type="number">
             Points given to Attacking OG
           </Field>
@@ -34,19 +38,28 @@ class PtTransfer extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const grpInfo = state.store.groups;
+  const myGroup = state.store.myGroup;
+  var attacker = null;
+
+  Object.keys(grpInfo).forEach((key) => {
+    if (grpInfo[key].name == myGroup) {
+      attacker = grpInfo[key].attacker;
+    }
+  });
+
   return {
-    grpInfo: state.store.groups,
-    myGroup: state.store.myGroup,
+    grpInfo: grpInfo,
+    myGroup: myGroup,
+    attacker: attacker,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    chooseAttacker: (state, props) => dispatch(chooseAttacker(state, props)),
     transferPt: (state, props) => dispatch(transferPt(state, props)),
   };
 };
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  withRouter
-)(PtTransfer);
+export default connect(mapStateToProps, mapDispatchToProps)(PtTransfer);

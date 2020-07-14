@@ -83,6 +83,36 @@ export const addPt = (state, props) => {
   };
 };
 
+export const chooseAttacker = (state, props) => (
+  dispatch,
+  getState,
+  { getFirestore }
+) => {
+  console.log("Choosing Attacker");
+  console.log("Station: " + props.groupname);
+  console.log("Attacker: " + state.groupname2);
+
+  getFirestore()
+    .collection("groups")
+    .where("name", "==", props.groupname)
+    .limit(1)
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        doc.ref.update({
+          attacker: state.groupname2,
+        });
+      });
+    })
+    .then(() => {
+      dispatch({ type: "ATTACKER_CHOSEN" });
+    })
+    .catch((err) => {
+      console.log("Error choosing attacker");
+      console.log(err);
+    });
+};
+
 export const transferPt = (state, props) => async (
   dispatch,
   getState,
@@ -90,9 +120,9 @@ export const transferPt = (state, props) => async (
 ) => {
   const points = parseInt(state.point);
   console.log("Transferring points");
-  console.log(points);
-  console.log(props.groupname);
-  console.log(state.groupname2);
+  console.log("Station: " + props.groupname);
+  console.log("Attacker: " + props.groupname2);
+  console.log("Points: " + points);
 
   getFirestore()
     .collection("groups")
@@ -113,7 +143,7 @@ export const transferPt = (state, props) => async (
 
   getFirestore()
     .collection("groups")
-    .where("name", "==", state.groupname2)
+    .where("name", "==", props.groupname2)
     .limit(1)
     .get()
     .then(function (querySnapshot) {

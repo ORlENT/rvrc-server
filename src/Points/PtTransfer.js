@@ -16,9 +16,7 @@ class PtTransfer extends Component {
   render() {
     const {
       myGroup,
-      grpInfo,
-      attacker,
-      points,
+      groups,
       chooseAttacker,
       clearAttacker,
       transferPt,
@@ -30,40 +28,40 @@ class PtTransfer extends Component {
         <CenterBox>
           <Header>Current Status</Header>
           <PtCard
-            title={myGroup}
-            subtitle={attacker ? "⚔️ by " + attacker : ""}
-            content={points}
+            title={myGroup.name}
+            subtitle={myGroup.attacker ? "⚔️ by " + myGroup.attacker : ""}
+            content={myGroup.points}
             highlight={"#ff9800"}
           />
         </CenterBox>
 
         <CenterBox>
-          <Header>{myGroup} Station Master</Header>
+          <Header>{myGroup.name} Station Master</Header>
 
           {/* CHOOSING ATTACKER */}
-          {attacker ? (
+          {myGroup.attacker ? (
             //ATTACKER CHOSEN
-            <Form admin onSubmit={clearAttacker} groupname={myGroup}>
-              <Select label={attacker} disabled />
+            <Form admin onSubmit={clearAttacker} groupname={myGroup.name}>
+              <Select label={myGroup.attacker} disabled />
               <SubmitButton secondary>Clear Attacker</SubmitButton>
             </Form>
           ) : (
             //ATTACKER NOT YET CHOSEN
-            <Form admin onSubmit={chooseAttacker} groupname={myGroup}>
-              <Select label="Attacking OG" id="groupname2" object={grpInfo} />
+            <Form admin onSubmit={chooseAttacker} groupname={myGroup.name}>
+              <Select label="Attacking OG" id="groupname2" object={groups} />
               <SubmitButton>Lock in Attacker</SubmitButton>
             </Form>
           )}
 
           {/* TRANSFERRING POINTS */}
-          {attacker ? (
+          {myGroup.attacker ? (
             //ATTACKER CHOSEN
             <Form
               admin
               onSubmit={transferPt}
               onSuccess={clearAttacker}
-              groupname={myGroup}
-              groupname2={attacker}
+              groupname={myGroup.name}
+              groupname2={myGroup.attacker}
             >
               <Field id="point" type="number">
                 Points given to Attacking OG
@@ -83,7 +81,7 @@ class PtTransfer extends Component {
 
         {/* TRANSACTIONS */}
         <CenterBox>
-          <Header>{myGroup} Battles</Header>
+          <Header>{myGroup.name} Battles</Header>
 
           {/*No transactions found*/}
           {myTransactions.length === 0 && (
@@ -91,9 +89,10 @@ class PtTransfer extends Component {
           )}
 
           {/*Group List*/}
-          {myTransactions.map((t) => (
-            <PtCard subtitle={t.from + " ⚔️ by " + t.to} content={t.points} />
-          ))}
+          {myTransactions &&
+            myTransactions.map((t) => (
+              <PtCard subtitle={t.from + " ⚔️ by " + t.to} content={t.points} />
+            ))}
         </CenterBox>
       </div>
     );
@@ -101,28 +100,19 @@ class PtTransfer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const grpInfo = state.store.groups;
-  const myGroup = state.store.myGroup;
-  var attacker = null;
-  var points = null;
+  const groups = state.store.groups;
+  const myGroupName = state.store.myGroup;
 
-  Object.keys(grpInfo).forEach((key) => {
-    if (grpInfo[key].name === myGroup) {
-      attacker = grpInfo[key].attacker;
-      points = grpInfo[key].points;
-    }
-  });
+  const myGroup = Object.values(groups).find((grp) => grp.name === myGroupName);
 
   const transactions = state.store.transactions;
   const myTransactions = Object.values(transactions).filter(
-    (t) => t.from === myGroup
+    (t) => t.from === myGroupName
   );
 
   return {
-    grpInfo: grpInfo,
+    groups: groups,
     myGroup: myGroup,
-    attacker: attacker,
-    points: points,
     myTransactions: myTransactions,
   };
 };

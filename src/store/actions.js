@@ -34,7 +34,6 @@ export const fetchInfo = () => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     getFirestore()
       .collection("groups")
-      .orderBy("points", "desc")
       .orderBy("name", "asc")
       .onSnapshot((snapshot) => {
         console.log("Fetching groups");

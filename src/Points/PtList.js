@@ -4,7 +4,7 @@ import { Header, CenterBox, PtCard, NavButton } from "../UI";
 
 class PtList extends Component {
   render() {
-    let { grpInfo, transactions, isAuthed } = this.props;
+    let { groups, transactions, isAuthed } = this.props;
     return (
       <div>
         {/* GROUPS */}
@@ -12,9 +12,7 @@ class PtList extends Component {
           <Header>Leaderboard</Header>
 
           {/*No groups found*/}
-          {Object.keys(grpInfo).length === 0 && (
-            <Header>No groups found</Header>
-          )}
+          {groups.length === 0 && <Header>No groups found</Header>}
 
           {/*Transfer points button (Admin only)*/}
           {isAuthed && (
@@ -24,15 +22,12 @@ class PtList extends Component {
           )}
 
           {/*Group List*/}
-          {grpInfo &&
-            Object.keys(grpInfo).map((key) => (
+          {groups &&
+            groups.map((grp) => (
               <PtCard
-                key={key}
-                title={grpInfo[key].name}
-                subtitle={
-                  grpInfo[key].attacker ? "⚔️ by " + grpInfo[key].attacker : ""
-                }
-                content={grpInfo[key].points}
+                title={grp.name}
+                subtitle={grp.attacker ? "⚔️ by " + grp.attacker : ""}
+                content={grp.points}
                 highlight={"#ff9800"}
               />
             ))}
@@ -65,8 +60,15 @@ class PtList extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const groups = Object.values(state.store.groups).sort((a, b) => {
+    if (a.points === b.points) {
+      return a.name - b.name;
+    }
+    return b.points - a.points;
+  });
+
   return {
-    grpInfo: state.store.groups,
+    groups: groups,
     transactions: state.store.transactions,
     //isAuthed: state.store.isAuthed,
   };

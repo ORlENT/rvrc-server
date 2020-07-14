@@ -7,7 +7,7 @@ export const signIn = (state) => {
       .auth()
       .signInWithEmailAndPassword(email, state.password)
       .then(() => {
-        dispatch({ type: "LOGIN_SUCCESS" });
+        dispatch({ type: "LOGIN_SUCCESS", myGroup: state.groupname });
 
         getFirestore().collection("groups").get();
       })
@@ -91,12 +91,12 @@ export const transferPt = (state, props) => async (
   const points = parseInt(state.point);
   console.log("Transferring points");
   console.log(points);
-  console.log(state.groupname);
+  console.log(props.groupname);
   console.log(state.groupname2);
 
   getFirestore()
     .collection("groups")
-    .where("name", "==", state.groupname)
+    .where("name", "==", props.groupname)
     .limit(1)
     .get()
     .then(function (querySnapshot) {

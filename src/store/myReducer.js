@@ -3,6 +3,7 @@ const initState = {
   formSuccess: false,
   formFailed: false,
   groups: {},
+  myGroup: null,
   loaded: false,
 };
 
@@ -13,6 +14,8 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         isAuthed: true,
+        formSuccess: true,
+        myGroup: action.myGroup,
       };
 
     case "LOGIN_ERROR":
@@ -28,6 +31,7 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         isAuthed: false,
+        myGroup: null,
       };
 
     case "FETCH_SUCCESS":

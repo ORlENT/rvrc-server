@@ -59,11 +59,6 @@ class Point extends Component {
               component={PtTransfer}
             /> */}
             <Route exact path={"/transfer"} component={PtTransfer} />
-            <AdminRoute
-              path={"/:grpID/ptAdd"}
-              redirect={"/"}
-              component={PtAdd}
-            />
           </Switch>
         </div>
       </div>

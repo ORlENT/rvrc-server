@@ -19,13 +19,13 @@ class NavBar extends Component {
     });
   };
 
-  componentDidUpdate() {
+  /* componentDidUpdate() {
     if (this.props.isAuthed && this.state.visible) {
       this.setState({
         visible: false,
       });
     }
-  }
+  } */
 
   render() {
     const { width, isAuthed, signOut } = this.props;

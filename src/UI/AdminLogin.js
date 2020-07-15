@@ -32,7 +32,7 @@ class AdminLogin extends Component {
             <Select
               label="Station"
               id="groupname"
-              object={this.props.grpInfo}
+              choices={this.props.groups}
             />
             <Field id="password" password>
               Password
@@ -50,7 +50,7 @@ class AdminLogin extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    grpInfo: state.store.groups,
+    groups: Object.values(state.store.groups),
   };
 };
 

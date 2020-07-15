@@ -12,15 +12,9 @@ import {
 } from "../UI";
 import { transferPt } from "../store/actions";
 
-class PtTransfer extends Component {
+class TransEdit extends Component {
   render() {
-    const {
-      myGroup,
-      grpInfo,
-      attacker,
-      clearAttacker,
-      transferPt,
-    } = this.props;
+    const { myGroup, groups, attacker, clearAttacker, transferPt } = this.props;
     return (
       <div>
         {/* CURRENT BATTLE */}
@@ -40,7 +34,7 @@ class PtTransfer extends Component {
             groupname={myGroup}
             groupname2={attacker}
           >
-            <Select label="Attacking OG" id="groupname2" object={grpInfo} />
+            <Select label="Attacking OG" id="groupname2" choices={groups} />
             <Field id="point" type="number">
               Points given to Attacking OG
             </Field>
@@ -53,7 +47,7 @@ class PtTransfer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const grpInfo = state.store.groups;
+  const groups = Object.values(state.store.groups);
   const myGroup = state.store.myGroup;
 
   const transactions = state.store.transactions;
@@ -62,7 +56,7 @@ const mapStateToProps = (state) => {
   );
 
   return {
-    grpInfo: grpInfo,
+    groups: groups,
     myGroup: myGroup,
     myTransactions: myTransactions,
   };
@@ -74,4 +68,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PtTransfer);
+export default connect(mapStateToProps, mapDispatchToProps)(TransEdit);

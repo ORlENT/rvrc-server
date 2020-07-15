@@ -49,7 +49,7 @@ class PtTransfer extends Component {
           ) : (
             //ATTACKER NOT YET CHOSEN
             <Form admin onSubmit={chooseAttacker} groupname={myGroup.name}>
-              <Select label="Attacking OG" id="groupname2" object={groups} />
+              <Select label="Attacking OG" id="groupname2" choices={groups} />
               <SubmitButton>Lock in Attacker</SubmitButton>
             </Form>
           )}
@@ -98,10 +98,11 @@ class PtTransfer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const groups = state.store.groups;
+  var groups = Object.values(state.store.groups);
   const myGroupName = state.store.myGroup;
 
-  const myGroup = Object.values(groups).find((grp) => grp.name === myGroupName);
+  const myGroup = groups.find((grp) => grp.name === myGroupName);
+  groups = groups.filter((grp) => grp.name !== myGroupName);
 
   const transactions = state.store.transactions;
   const myTransactions = Object.values(transactions).filter(

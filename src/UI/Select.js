@@ -43,7 +43,7 @@ const SelectField = ({
   long,
   errorText,
   children,
-  object,
+  choices,
   id,
   ...rest
 }) => {
@@ -76,14 +76,10 @@ const SelectField = ({
       InputLabelProps={{ required: false }}
       {...rest}
     >
-      {object &&
-        Object.keys(object).map((key) => {
-          return (
-            <MenuItem value={object[key].name} key={key}>
-              {object[key].name}
-            </MenuItem>
-          );
-        })}
+      {choices &&
+        choices.map((choice) => (
+          <MenuItem value={choice.name}>{choice.name}</MenuItem>
+        ))}
     </StyledField>
   );
 };

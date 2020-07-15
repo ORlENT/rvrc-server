@@ -12,8 +12,15 @@ import {
   Select,
 } from "../UI";
 import { chooseAttacker, clearAttacker, transferPt } from "../store/actions";
+import ValidationError from "../errors/ValidationError";
 
 class PtTransfer extends Component {
+  validate = (state) => {
+    if (!state.groupname2) {
+      throw new ValidationError("groupname2", "Please select an Attacking OG");
+    }
+  };
+
   render() {
     const {
       myGroup,
@@ -48,7 +55,12 @@ class PtTransfer extends Component {
             </Form>
           ) : (
             //ATTACKER NOT YET CHOSEN
-            <Form admin onSubmit={chooseAttacker} groupname={myGroup.name}>
+            <Form
+              admin
+              onSubmit={chooseAttacker}
+              validate={this.validate}
+              groupname={myGroup.name}
+            >
               <Select label="Attacking OG" id="groupname2" choices={groups} />
               <SubmitButton>Lock in Attacker</SubmitButton>
             </Form>

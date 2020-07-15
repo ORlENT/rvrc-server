@@ -7,6 +7,12 @@ import { signIn } from "../store/actions";
 import ValidationError from "../errors/ValidationError";
 
 class AdminLogin extends Component {
+  validate = (state) => {
+    if (!state.groupname) {
+      throw new ValidationError("groupname", "Please select your Station");
+    }
+  };
+
   failHandler() {
     throw new ValidationError("password", "Password is incorrect");
   }
@@ -24,6 +30,7 @@ class AdminLogin extends Component {
           <Form
             admin
             onSubmit={this.props.signIn}
+            validate={this.validate}
             onFail={this.failHandler}
             onSuccess={this.successHandler}
             history={this.props.history}

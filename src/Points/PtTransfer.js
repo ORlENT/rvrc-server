@@ -50,7 +50,11 @@ class PtTransfer extends Component {
           {myGroup.attacker ? (
             //ATTACKER CHOSEN
             <Form admin onSubmit={clearAttacker} groupname={myGroup.name}>
-              <Select label={myGroup.attacker} disabled />
+              <Select
+                label={myGroup.attacker}
+                disabled
+                choices={groups}
+              ></Select>
               <SubmitButton secondary>Clear Attacker</SubmitButton>
             </Form>
           ) : (
@@ -101,8 +105,9 @@ class PtTransfer extends Component {
             <Header>No transactions found</Header>
           )}
 
-          {/*Group List*/}
-          {myTransactions && myTransactions.map((t) => <TransCard t={t} />)}
+          {/*Transaction List*/}
+          {myTransactions &&
+            myTransactions.map((t) => <TransCard key={t.id} id={t.id} t={t} />)}
         </CenterBox>
       </div>
     );
@@ -117,9 +122,13 @@ const mapStateToProps = (state) => {
   groups = groups.filter((grp) => grp.name !== myGroupName);
 
   const transactions = state.store.transactions;
-  const myTransactions = Object.values(transactions).filter(
-    (t) => t.from === myGroupName
-  );
+  const myTransactions = Object.entries(transactions)
+    .map((kv) => {
+      const t = kv[1];
+      t.id = kv[0];
+      return t;
+    })
+    .filter((t) => t.from === myGroupName);
 
   return {
     groups: groups,

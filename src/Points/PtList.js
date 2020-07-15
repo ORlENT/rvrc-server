@@ -25,6 +25,7 @@ class PtList extends Component {
           {groups &&
             groups.map((grp) => (
               <PtCard
+                key={grp.name}
                 title={grp.name}
                 subtitle={grp.attacker ? "⚔️ by " + grp.attacker : ""}
                 content={grp.points}
@@ -42,11 +43,11 @@ class PtList extends Component {
             <Header>No transactions found</Header>
           )}
 
-          {/*Group List*/}
+          {/*Transaction List*/}
           {transactions &&
-            Object.keys(transactions).map((key) => (
-              <TransCard key={key} t={transactions[key]} />
-            ))}
+            Object.keys(transactions).map((key) => {
+              return <TransCard key={key} id={key} t={transactions[key]} />;
+            })}
         </CenterBox>
       </div>
     );

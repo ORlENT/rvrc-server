@@ -1,5 +1,15 @@
 import React from "react";
-import { Card, CardContent } from "@material-ui/core";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+
+import {
+  Card,
+  CardContent,
+  CardActionArea,
+  Menu,
+  MenuItem,
+} from "@material-ui/core";
 
 export const PtCard = ({ title, subtitle, content, highlight, ...rest }) => (
   <Card
@@ -7,7 +17,6 @@ export const PtCard = ({ title, subtitle, content, highlight, ...rest }) => (
       backgroundColor: "#555",
       position: "relative",
     }}
-    {...rest}
   >
     <CardContent
       style={{
@@ -61,14 +70,31 @@ export const PtCard = ({ title, subtitle, content, highlight, ...rest }) => (
   </Card>
 );
 
-export const TransCard = ({ t, ...rest }) => (
-  <Card
-    style={{
-      backgroundColor: "#555",
-      position: "relative",
-    }}
-    {...rest}
-  >
+const mapStateToProps = (state) => {
+  return {
+    isAuthed: state.store.isAuthed,
+  };
+};
+
+export const TransCard = compose(
+  connect(mapStateToProps),
+  withRouter
+)(({ id, t, isAuthed, history, ...rest }) => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleEdit = () => {
+    history.push(`/edit/${id}`);
+  };
+
+  const content = (
     <CardContent
       style={{
         width: "100%",
@@ -105,5 +131,42 @@ export const TransCard = ({ t, ...rest }) => (
         {" at " + t.timestamp.toDate().toLocaleTimeString()}
       </p>
     </CardContent>
-  </Card>
-);
+  );
+
+  return (
+    <Card
+      style={{
+        backgroundColor: "#555",
+        position: "relative",
+      }}
+    >
+      {isAuthed ? (
+        <>
+          <CardActionArea
+            onClick={handleClick}
+            style={{
+              font: "unset",
+            }}
+          >
+            {content}
+          </CardActionArea>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+          >
+            <MenuItem onClick={handleEdit}>Edit</MenuItem>
+          </Menu>
+        </>
+      ) : (
+        content
+      )}
+    </Card>
+  );
+});

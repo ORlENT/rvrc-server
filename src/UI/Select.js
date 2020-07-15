@@ -78,7 +78,9 @@ const SelectField = ({
     >
       {choices &&
         choices.map((choice) => (
-          <MenuItem value={choice.name}>{choice.name}</MenuItem>
+          <MenuItem key={choice.name} value={choice.name}>
+            {choice.name}
+          </MenuItem>
         ))}
     </StyledField>
   );

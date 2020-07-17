@@ -57,7 +57,15 @@ class AdminLogin extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    groups: Object.values(state.store.groups),
+    groups: Object.values(state.store.groups).sort((a, b) => {
+      if ((!a.points && !b.points) || (a.points && b.points)) {
+        return a.name - b.name;
+      }
+      if (a.points) {
+        return -1;
+      }
+      return 1;
+    }),
   };
 };
 

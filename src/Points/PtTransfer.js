@@ -39,7 +39,6 @@ class PtTransfer extends Component {
             title={myGroup.name}
             subtitle={myGroup.attacker ? "⚔️ by " + myGroup.attacker : ""}
             content={myGroup.points}
-            highlight={"#ff9800"}
           />
         </CenterBox>
 
@@ -119,7 +118,9 @@ const mapStateToProps = (state) => {
   const myGroupName = state.store.myGroup;
 
   const myGroup = groups.find((grp) => grp.name === myGroupName);
-  groups = groups.filter((grp) => grp.name !== myGroupName);
+  groups = groups
+    .filter((grp) => grp.points)
+    .filter((grp) => grp.name !== myGroupName);
 
   const transactions = state.store.transactions;
   const myTransactions = Object.entries(transactions)

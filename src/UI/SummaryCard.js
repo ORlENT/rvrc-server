@@ -11,7 +11,7 @@ import {
   MenuItem,
 } from "@material-ui/core";
 
-export const PtCard = ({ title, subtitle, content, highlight, ...rest }) => (
+export const PtCard = ({ title, subtitle, content, ...rest }) => (
   <Card
     style={{
       backgroundColor: "#555",
@@ -22,23 +22,22 @@ export const PtCard = ({ title, subtitle, content, highlight, ...rest }) => (
       style={{
         width: "100%",
         padding: "16px",
-        paddingLeft: highlight ? "24px" : "16px",
+        paddingLeft: "24px",
         WebkitBoxSizing: "border-box",
       }}
     >
       {/*border highlight*/}
-      {highlight && (
-        <div
-          style={{
-            width: "8px",
-            backgroundColor: highlight,
-            position: "absolute",
-            top: "0",
-            bottom: "0",
-            left: "0",
-          }}
-        />
-      )}
+      <div
+        style={{
+          width: "8px",
+          backgroundColor: "#ff9800",
+          position: "absolute",
+          top: "0",
+          bottom: "0",
+          left: "0",
+        }}
+      />
+
       {/*content*/}
       <p
         style={{

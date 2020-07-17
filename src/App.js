@@ -7,12 +7,16 @@ const theme = createMuiTheme({
   palette: {
     type: "dark",
 
-    // Normal user color: Orange
+    // Normal user color:
+    // #9c27b0 Purple
+    // #ff9800 Orange
     primary: {
       main: "#ff9800",
     },
 
-    // Admin color: Blue
+    // Admin color:
+    // #4caf50 Green
+    // #2196f3 Blue
     secondary: {
       main: "#2196f3",
     },

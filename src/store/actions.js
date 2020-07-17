@@ -178,9 +178,11 @@ export const transferPt = (state, props) => async (
     .get()
     .then(function (querySnapshot) {
       querySnapshot.forEach(function (doc) {
-        doc.ref.update({
-          points: getFirestore().FieldValue.increment(-points),
-        });
+        if (doc.get("points") != null) {
+          doc.ref.update({
+            points: getFirestore().FieldValue.increment(-points),
+          });
+        }
       });
     })
     .catch((err) => {

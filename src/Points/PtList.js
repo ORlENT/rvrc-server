@@ -4,15 +4,15 @@ import { Header, CenterBox, PtCard, TransCard, NavButton } from "../UI";
 
 class PtList extends Component {
   render() {
-    let { groups, transactions, isAuthed } = this.props;
+    let { ogs, rcs, transactions, isAuthed } = this.props;
     return (
       <div>
-        {/* GROUPS */}
+        {/* OGs */}
         <CenterBox>
           <Header>Leaderboard</Header>
 
-          {/*No groups found*/}
-          {groups.length === 0 && <Header>No groups found</Header>}
+          {/*No OGs found*/}
+          {ogs.length === 0 && <Header>No OGs found</Header>}
 
           {/*Transfer points button (Admin only)*/}
           {isAuthed && (
@@ -22,14 +22,32 @@ class PtList extends Component {
           )}
 
           {/*Group List*/}
-          {groups &&
-            groups.map((grp) => (
+          {ogs &&
+            ogs.map((og) => (
               <PtCard
-                key={grp.name}
-                title={grp.name}
-                subtitle={grp.attacker ? "⚔️ by " + grp.attacker : ""}
-                content={grp.points}
-                highlight={"#ff9800"}
+                key={og.name}
+                title={og.name}
+                subtitle={og.attacker ? "⚔️ by " + og.attacker : ""}
+                content={og.points}
+              />
+            ))}
+        </CenterBox>
+
+        {/* RESOURCE CAMPS */}
+        <CenterBox>
+          <Header>Resource Camps</Header>
+
+          {/*No RCs found*/}
+          {rcs.length === 0 && <Header>No camps found</Header>}
+
+          {/*RC List*/}
+          {rcs &&
+            rcs.map((rc) => (
+              <PtCard
+                key={rc.name}
+                title={rc.name}
+                subtitle={rc.attacker ? "⚔️ by " + rc.attacker : ""}
+                content={rc.points}
               />
             ))}
         </CenterBox>
@@ -40,7 +58,7 @@ class PtList extends Component {
 
           {/*No transactions found*/}
           {Object.keys(transactions).length === 0 && (
-            <Header>No transactions found</Header>
+            <Header>No Battles found</Header>
           )}
 
           {/*Transaction List*/}
@@ -55,15 +73,24 @@ class PtList extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const groups = Object.values(state.store.groups).sort((a, b) => {
-    if (a.points === b.points) {
-      return a.name - b.name;
-    }
-    return b.points - a.points;
-  });
+  const groups = Object.values(state.store.groups);
+
+  const ogs = groups
+    .filter((grp) => grp.points)
+    .sort((a, b) => {
+      if (a.points === b.points) {
+        return a.name - b.name;
+      }
+      return b.points - a.points;
+    });
+
+  const rcs = groups
+    .filter((grp) => !grp.points)
+    .sort((a, b) => a.name - b.name);
 
   return {
-    groups: groups,
+    ogs: ogs,
+    rcs: rcs,
     transactions: state.store.transactions,
     //isAuthed: state.store.isAuthed,
   };

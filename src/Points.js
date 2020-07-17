@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import AdminRoute from "./Routes/AdminRoute";
 import PtList from "./Points/PtList";
 import PtTransfer from "./Points/PtTransfer";
-import TransEdit from "./Points/TransEdit";
 import { NavBar, LoadingScreen } from "./UI";
 import { fetchInfo } from "./store/actions";
 
@@ -53,13 +52,11 @@ class Point extends Component {
         >
           <Switch>
             <Route exact path={"/"} component={PtList} />
-            {/* <AdminRoute
+            <AdminRoute
               path={"/transfer"}
               redirect={"/"}
               component={PtTransfer}
-            /> */}
-            <Route exact path={"/transfer"} component={PtTransfer} />
-            <Route exact path={"/edit/:id"} component={TransEdit} />
+            />
           </Switch>
         </div>
       </div>

@@ -43,7 +43,7 @@ class AdminMenu extends Component {
         this.props.dispatchType("CONFIRM_FORM_CLEARED_CALLBACKACTION");
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   }
 

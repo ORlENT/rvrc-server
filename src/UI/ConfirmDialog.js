@@ -26,7 +26,7 @@ class ConfirmDialog extends Component {
         this.props.fetchInfo(this.props.match.params.campCode);
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
       this.setState({
         errorText: { [err.id]: err.message },
       });

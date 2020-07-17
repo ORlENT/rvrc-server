@@ -1,7 +1,7 @@
 export const signIn = (state) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const email = "rvrc@orient.org";
-    console.log("Signing in");
+    //console.log("Signing in");
 
     getFirebase()
       .auth()
@@ -19,7 +19,7 @@ export const signIn = (state) => {
 
 export const signOut = () => {
   return (dispatch, getState, { getFirebase }) => {
-    console.log("Signing out");
+    //console.log("Signing out");
 
     getFirebase()
       .auth()
@@ -36,7 +36,7 @@ export const fetchInfo = () => {
       .collection("groups")
       .orderBy("name", "asc")
       .onSnapshot((snapshot) => {
-        console.log("Fetching groups");
+        //console.log("Fetching groups");
 
         var groups = {};
         snapshot.forEach((doc) => {
@@ -53,7 +53,7 @@ export const fetchInfo = () => {
       .collection("transactions")
       .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) => {
-        console.log("Fetching transactions");
+        //console.log("Fetching transactions");
 
         var transactions = {};
         snapshot.forEach((doc) => {
@@ -70,7 +70,7 @@ export const fetchInfo = () => {
 
 export const addPt = (state, props) => {
   return (dispatch, getState, { getFirestore }) => {
-    console.log("Creating group");
+    //console.log("Creating group");
     getFirestore()
       .collection("camps")
       .where("campCode", "==", getState().store.camp.campCode)
@@ -90,13 +90,13 @@ export const addPt = (state, props) => {
             dispatch({ type: "ADD_POINTS" });
           })
           .catch((err) => {
-            console.log("Error adding points");
-            console.log(err);
+            //console.log("Error adding points");
+            //console.log(err);
           });
       })
       .catch((err) => {
-        console.log("Error retrieving camp");
-        console.log(err);
+        //console.log("Error retrieving camp");
+        //console.log(err);
       });
   };
 };
@@ -106,9 +106,9 @@ export const chooseAttacker = (state, props) => (
   getState,
   { getFirestore }
 ) => {
-  console.log("Choosing Attacker");
-  console.log("Station: " + props.groupname);
-  console.log("Attacker: " + state.groupname2);
+  //console.log("Choosing Attacker");
+  //console.log("Station: " + props.groupname);
+  //console.log("Attacker: " + state.groupname2);
 
   getFirestore()
     .collection("groups")
@@ -126,8 +126,8 @@ export const chooseAttacker = (state, props) => (
       dispatch({ type: "ATTACKER_CHOSEN" });
     })
     .catch((err) => {
-      console.log("Error choosing attacker");
-      console.log(err);
+      //console.log("Error choosing attacker");
+      //console.log(err);
     });
 };
 
@@ -136,8 +136,8 @@ export const clearAttacker = (state, props) => (
   getState,
   { getFirestore }
 ) => {
-  console.log("Clearing Attacker");
-  console.log("Station: " + props.groupname);
+  //console.log("Clearing Attacker");
+  //console.log("Station: " + props.groupname);
 
   getFirestore()
     .collection("groups")
@@ -155,8 +155,8 @@ export const clearAttacker = (state, props) => (
       dispatch({ type: "ATTACKER_CHOSEN" });
     })
     .catch((err) => {
-      console.log("Error choosing attacker");
-      console.log(err);
+      //console.log("Error choosing attacker");
+      //console.log(err);
     });
 };
 
@@ -166,10 +166,10 @@ export const transferPt = (state, props) => async (
   { getFirestore }
 ) => {
   const points = parseInt(state.point);
-  console.log("Transferring points");
-  console.log("Station: " + props.groupname);
-  console.log("Attacker: " + props.groupname2);
-  console.log("Points: " + points);
+  //console.log("Transferring points");
+  //console.log("Station: " + props.groupname);
+  //console.log("Attacker: " + props.groupname2);
+  //console.log("Points: " + points);
 
   const from = await getFirestore()
     .collection("groups")
@@ -186,8 +186,8 @@ export const transferPt = (state, props) => async (
       });
     })
     .catch((err) => {
-      console.log("Error transferring points");
-      console.log(err);
+      //console.log("Error transferring points");
+      //console.log(err);
     });
 
   const to = await getFirestore()
@@ -203,8 +203,8 @@ export const transferPt = (state, props) => async (
       });
     })
     .catch((err) => {
-      console.log("Error transferring points");
-      console.log(err);
+      //console.log("Error transferring points");
+      //console.log(err);
     });
 
   const log = await getFirestore()
@@ -216,8 +216,8 @@ export const transferPt = (state, props) => async (
       timestamp: getFirestore().Timestamp.now(),
     })
     .catch((err) => {
-      console.log("Error transferring points");
-      console.log(err);
+      //console.log("Error transferring points");
+      //console.log(err);
     });
 
   Promise.all([from, to, log]).then(() => {

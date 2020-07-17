@@ -35,7 +35,7 @@ class Form extends Component {
         errorText: {},
       });
     } catch (err) {
-      console.log(err);
+      //console.log(err);
       this.setState({
         errorText: { [err.id]: err.message },
       });
@@ -51,7 +51,7 @@ class Form extends Component {
         loading: true,
       });
     } catch (err) {
-      console.log(err);
+      //console.log(err);
       this.setState({
         errorText: { [err.id]: err.message },
       });
@@ -86,7 +86,7 @@ class Form extends Component {
         this.props.onFail(this.state, this.props);
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
       this.setState({
         errorText: { [err.id]: err.message },
       });

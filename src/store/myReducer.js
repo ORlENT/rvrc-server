@@ -11,7 +11,7 @@ const initState = {
 const myReducer = (state = initState, action) => {
   switch (action.type) {
     case "LOGIN_SUCCESS":
-      console.log("Login success");
+      //console.log("Login success");
       return {
         ...state,
         isAuthed: true,
@@ -20,15 +20,15 @@ const myReducer = (state = initState, action) => {
       };
 
     case "LOGIN_ERROR":
-      console.log("Login error");
-      console.log(action.err.message);
+      //console.log("Login error");
+      //console.log(action.err.message);
       return {
         ...state,
         formFailed: true,
       };
 
     case "SIGNOUT_SUCCESS":
-      console.log("Signout success");
+      //console.log("Signout success");
       return {
         ...state,
         isAuthed: false,
@@ -36,7 +36,7 @@ const myReducer = (state = initState, action) => {
       };
 
     case "FETCHED_GROUPS":
-      console.log("Fetched groups");
+      //console.log("Fetched groups");
 
       return {
         ...state,
@@ -45,7 +45,7 @@ const myReducer = (state = initState, action) => {
       };
 
     case "FETCHED_TRANSACTIONS":
-      console.log("Fetched transactions");
+      //console.log("Fetched transactions");
 
       return {
         ...state,
@@ -53,7 +53,7 @@ const myReducer = (state = initState, action) => {
       };
 
     case "RESET_FORM":
-      console.log("Form reset");
+      //console.log("Form reset");
       return {
         ...state,
         formSuccess: false,
@@ -61,42 +61,42 @@ const myReducer = (state = initState, action) => {
       };
 
     case "ADD_POINTS":
-      console.log("Add points successfully");
+      //console.log("Add points successfully");
       return {
         ...state,
         formSuccess: true,
       };
 
     case "ATTACKER_CHOSEN":
-      console.log("Attacker chosen successfully");
+      //console.log("Attacker chosen successfully");
       return {
         ...state,
         formSuccess: true,
       };
 
     case "TRANSFER_POINTS":
-      console.log("Transfer points successfully");
+      //console.log("Transfer points successfully");
       return {
         ...state,
         formSuccess: true,
       };
 
     case "CONFIRM_FORM_OPEN":
-      console.log("Open confirm form successfully");
+      //console.log("Open confirm form successfully");
       return {
         ...state,
         confirmForm: true,
       };
 
     case "CONFIRMFORM_CONFIRM":
-      console.log("Confirm form confirm executing callback successfully");
+      //console.log("Confirm form confirm executing callback successfully");
       return {
         ...state,
         confirm: true,
       };
 
     case "CONFIRM_FORM_CLOSE":
-      console.log("Close confirm form successfully");
+      //console.log("Close confirm form successfully");
       return {
         ...state,
         confirm: false,
@@ -105,7 +105,7 @@ const myReducer = (state = initState, action) => {
       };
 
     case "CONFIRM_FORM_CLEARED_CALLBACKACTION":
-      console.log("Callback action in admin menu clear successfully");
+      //console.log("Callback action in admin menu clear successfully");
       return {
         ...state,
         clearAction: false,

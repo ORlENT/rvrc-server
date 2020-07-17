@@ -10,6 +10,7 @@ import {
   Menu,
   MenuItem,
 } from "@material-ui/core";
+import isEqual from "../functions/isEqual";
 
 export const PtCard = ({ title, subtitle, content, highlight, ...rest }) => (
   <Card
@@ -70,103 +71,130 @@ export const PtCard = ({ title, subtitle, content, highlight, ...rest }) => (
   </Card>
 );
 
-const mapStateToProps = (state) => {
-  return {
-    isAuthed: state.store.isAuthed,
-  };
-};
+export const TransCard = withRouter(
+  ({ id, t, newT, clickable, history, ...rest }) => {
+    if (isEqual(t, newT)) {
+      newT = null;
+    }
 
-export const TransCard = compose(
-  connect(mapStateToProps),
-  withRouter
-)(({ id, t, isAuthed, history, ...rest }) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
 
-  const handleEdit = () => {
-    history.push(`/edit/${id}`);
-  };
+    const handleEdit = () => {
+      history.push(`/edit/${id}`);
+    };
 
-  const content = (
-    <CardContent
-      style={{
-        width: "100%",
-        padding: "16px",
-        paddingLeft: "16px",
-        WebkitBoxSizing: "border-box",
-      }}
-    >
-      {/*content*/}
+    const transToText = (t, strikethrough) => (
       <p
         style={{
-          color: "#fff",
+          color: strikethrough ? "#999" : "#fff",
           margin: "0px",
-          float: "right",
-          textAlign: "right",
-        }}
-      >
-        {t.points < 0 ? t.to + " " + t.points : t.to + " +" + t.points}
-      </p>
-      {/*title*/}
-      <p
-        style={{
-          color: "#999",
-          margin: "0px",
+          position: "relative",
         }}
       >
         <span
           style={{
-            color: "#fff",
+            float: "right",
+            textAlign: "right",
           }}
         >
-          {t.points < 0 ? t.from + " 🛡️ " + t.to : t.from + " ⚔️ by " + t.to}
+          {/*points*/}
+          {t && (t.points < 0 ? t.to + " " + t.points : t.to + " +" + t.points)}
         </span>
-        {" at " + t.timestamp.toDate().toLocaleTimeString()}
-      </p>
-    </CardContent>
-  );
+        {/*log*/}
+        {t &&
+          (t.points < 0 ? t.from + " 🛡️ " + t.to : t.from + " ⚔️ by " + t.to)}
 
-  return (
-    <Card
-      style={{
-        backgroundColor: "#555",
-        position: "relative",
-      }}
-    >
-      {isAuthed ? (
-        <>
-          <CardActionArea
-            onClick={handleClick}
+        <span
+          style={{
+            color: "#999",
+          }}
+        >
+          {/*timestamp*/}
+          {t &&
+            t.timestamp &&
+            " at " + t.timestamp.toDate().toLocaleTimeString()}
+        </span>
+
+        {strikethrough && (
+          <div
             style={{
-              font: "unset",
+              position: "absolute",
+              left: "0",
+              top: "50%",
+              height: "1px",
+              background: "#999",
+              content: "",
+              width: "100%",
+              display: "block",
             }}
-          >
-            {content}
-          </CardActionArea>
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-          >
-            <MenuItem onClick={handleEdit}>Edit</MenuItem>
-          </Menu>
-        </>
-      ) : (
-        content
-      )}
-    </Card>
-  );
-});
+          />
+        )}
+      </p>
+    );
+
+    const content = (
+      <CardContent
+        style={{
+          width: "100%",
+          padding: "16px",
+          paddingLeft: "16px",
+          WebkitBoxSizing: "border-box",
+        }}
+      >
+        {newT ? (
+          <>
+            {transToText(t, true)}
+            {transToText(newT)}
+          </>
+        ) : (
+          transToText(t)
+        )}
+      </CardContent>
+    );
+
+    return (
+      <Card
+        style={{
+          backgroundColor: "#555",
+          position: "relative",
+        }}
+      >
+        {clickable ? (
+          <>
+            <CardActionArea
+              onClick={handleClick}
+              style={{
+                font: "unset",
+              }}
+            >
+              {content}
+            </CardActionArea>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+            >
+              <MenuItem onClick={handleEdit}>Edit</MenuItem>
+            </Menu>
+          </>
+        ) : (
+          content
+        )}
+      </Card>
+    );
+  }
+);

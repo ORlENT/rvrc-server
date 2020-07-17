@@ -13,6 +13,23 @@ import {
 import { transferPt } from "../store/actions";
 
 class TransEdit extends Component {
+  state = {};
+
+  componentDidMount() {
+    const newT = this.props.transactions[this.props.match.params.id];
+    this.setState({
+      groupname2: newT.to,
+      point: newT.points,
+    });
+  }
+
+  handleChange = (e) => {
+    console.log("BOOMZ");
+    this.setState({
+      [e.target.id ? e.target.id : e.target.name]: e.target.value,
+    });
+  };
+
   render() {
     const {
       match,
@@ -37,8 +54,18 @@ class TransEdit extends Component {
       <div>
         {/* CURRENT BATTLE */}
         <CenterBox>
-          <Header>Current Battle</Header>
-          <TransCard key={t.id} id={t.id} t={t} />
+          <Header>Preview</Header>
+          <TransCard
+            key={t.id}
+            id={t.id}
+            t={t}
+            newT={{
+              from: t.from,
+              to: this.state.groupname2,
+              points: this.state.point,
+              timestamp: t.timestamp,
+            }}
+          />
         </CenterBox>
 
         {/* EDIT FORM */}
@@ -57,8 +84,14 @@ class TransEdit extends Component {
               id="groupname2"
               value={t.to}
               choices={groups}
+              onChange={this.handleChange}
             />
-            <Field id="point" type="number" value={t.points}>
+            <Field
+              id="point"
+              type="number"
+              value={t.points}
+              onChange={this.handleChange}
+            >
               Points given to Attacking OG
             </Field>
             <SubmitButton>Confirm Edit</SubmitButton>
@@ -70,8 +103,10 @@ class TransEdit extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const groups = Object.values(state.store.groups);
+  var groups = Object.values(state.store.groups);
   const myGroup = state.store.myGroup;
+  groups = groups.filter((grp) => grp.name !== myGroup);
+
   const transactions = state.store.transactions;
 
   return {

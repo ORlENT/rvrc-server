@@ -36,6 +36,8 @@ class Point extends Component {
             gridRow: "1",
             zIndex: "1",
             height: "60px",
+            position: "sticky",
+            top: "0",
           }}
         >
           <NavBar />

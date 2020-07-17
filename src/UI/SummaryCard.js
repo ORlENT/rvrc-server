@@ -127,7 +127,11 @@ export const TransCard = compose(
         >
           {t.points < 0 ? t.from + " 🛡️ " + t.to : t.from + " ⚔️ by " + t.to}
         </span>
-        {" at " + t.timestamp.toDate().toLocaleTimeString()}
+        {" " +
+          t.timestamp
+            .toDate()
+            .toLocaleTimeString()
+            .replace(/:[^:]*$/, "")}
       </p>
     </CardContent>
   );

@@ -15,8 +15,8 @@ class CenterBox extends Component {
             maxWidth: "100vw",
             boxSizing: "border-box",
             height: "100%",
-            padding: "0 32px",
-            backgroundColor: "#444",
+            padding: "32px",
+            backgroundColor: "#333",
           }}
         >
           <Grid

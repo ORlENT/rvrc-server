@@ -53,16 +53,13 @@ class Point extends Component {
         >
           <Switch>
             <Route exact path={"/"} component={PtList} />
-            <AdminRoute
+            {/* <AdminRoute
               path={"/transfer"}
               redirect={"/"}
               component={PtTransfer}
-            />
-            <AdminRoute
-              path={"/edit/:id"}
-              redirect={"/"}
-              component={TransEdit}
-            />
+            /> */}
+            <Route exact path={"/transfer"} component={PtTransfer} />
+            <Route exact path={"/edit/:id"} component={TransEdit} />
           </Switch>
         </div>
       </div>

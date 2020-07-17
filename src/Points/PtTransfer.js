@@ -107,9 +107,7 @@ class PtTransfer extends Component {
 
           {/*Transaction List*/}
           {myTransactions &&
-            myTransactions.map((t) => (
-              <TransCard key={t.id} id={t.id} t={t} clickable />
-            ))}
+            myTransactions.map((t) => <TransCard key={t.id} id={t.id} t={t} />)}
         </CenterBox>
       </div>
     );

@@ -114,12 +114,14 @@ class PtTransfer extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const isOG = (grp) => grp.points || grp.points === 0;
+
   var groups = Object.values(state.store.groups);
   const myGroupName = state.store.myGroup;
 
   const myGroup = groups.find((grp) => grp.name === myGroupName);
   groups = groups
-    .filter((grp) => grp.points)
+    .filter((grp) => isOG(grp))
     .filter((grp) => grp.name !== myGroupName);
 
   const transactions = state.store.transactions;

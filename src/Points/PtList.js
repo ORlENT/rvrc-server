@@ -75,8 +75,10 @@ class PtList extends Component {
 const mapStateToProps = (state) => {
   const groups = Object.values(state.store.groups);
 
+  const isOG = (grp) => grp.points || grp.points === 0;
+
   const ogs = groups
-    .filter((grp) => grp.points)
+    .filter((grp) => isOG(grp))
     .sort((a, b) => {
       if (a.points === b.points) {
         return a.name - b.name;
@@ -85,7 +87,7 @@ const mapStateToProps = (state) => {
     });
 
   const rcs = groups
-    .filter((grp) => !grp.points)
+    .filter((grp) => !isOG(grp))
     .sort((a, b) => a.name - b.name);
 
   return {

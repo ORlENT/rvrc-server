@@ -111,7 +111,11 @@ export const TransCard = compose(
           textAlign: "right",
         }}
       >
-        {t.points < 0 ? t.to + " " + t.points : t.to + " +" + t.points}
+        {t.points < 0
+          ? t.to + " " + t.points
+          : t.points > 0
+          ? t.to + " +" + t.points
+          : ""}
       </p>
       {/*title*/}
       <p
@@ -125,7 +129,11 @@ export const TransCard = compose(
             color: "#fff",
           }}
         >
-          {t.points < 0 ? t.from + " 🛡️ " + t.to : t.from + " ⚔️ by " + t.to}
+          {t.points < 0
+            ? t.from + " 🛡️ " + t.to
+            : t.points > 0
+            ? t.from + " ⚔️ by " + t.to
+            : t.from + " 🤝 " + t.to}
         </span>
         {" " +
           t.timestamp

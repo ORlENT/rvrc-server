@@ -151,7 +151,7 @@ export const TransCard = compose(
         position: "relative",
       }}
     >
-      {isAuthed ? (
+      {false ? ( // isAuthed? to enable edit menu
         <>
           <CardActionArea
             onClick={handleClick}

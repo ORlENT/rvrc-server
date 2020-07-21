@@ -165,11 +165,32 @@ export const transferPt = (state, props) => async (
   getState,
   { getFirestore }
 ) => {
-  const points = parseInt(state.point);
+  var points = parseInt(state.point);
   //console.log("Transferring points");
   //console.log("Station: " + props.groupname);
   //console.log("Attacker: " + props.groupname2);
   //console.log("Points: " + points);
+
+  var groups = Object.values(getState().store.groups);
+  const isOG = (grp) => grp.points || grp.points === 0;
+
+  const station = groups.find((grp) => grp.name === props.groupname);
+  const attacker = groups.find((grp) => grp.name === props.groupname2);
+
+  //check for negative points
+  if (points > 0) {
+    // station to attacker
+    if (isOG(station)) {
+      if (station.points - points < 0) {
+        points = station.points;
+      }
+    }
+  } else {
+    // attacker to station
+    if (attacker.points + points < 0) {
+      points = -attacker.points;
+    }
+  }
 
   const from = await getFirestore()
     .collection("groups")

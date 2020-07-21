@@ -35,10 +35,10 @@ class PtList extends Component {
 
         {/* RESOURCE CAMPS */}
         <CenterBox>
-          <Header>Resource Camps</Header>
+          <Header>Farms</Header>
 
           {/*No RCs found*/}
-          {rcs.length === 0 && <Header>No camps found</Header>}
+          {rcs.length === 0 && <Header>No farms found</Header>}
 
           {/*RC List*/}
           {rcs &&

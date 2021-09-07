@@ -89,7 +89,7 @@ class NavBar extends Component {
             }}
           >
             <h2 style={{ color: "#fff", textAlign: "center", margin: "0px" }}>
-              War Games
+              Battleships
             </h2>
           </div>
         </div>

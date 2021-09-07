@@ -11,18 +11,29 @@ import {
   MenuItem,
 } from "@material-ui/core";
 
-export const PtCard = ({ title, subtitle, content, ...rest }) => (
-  <Card
-    style={{
-      backgroundColor: "#555",
-      position: "relative",
-    }}
-  >
+const mapStateToProps = (state) => {
+  return {
+    isAuthed: state.store.isAuthed,
+  };
+};
+
+export const PtCard = ({
+  title,
+  subtitle,
+  content,
+  link,
+  color,
+  isMine,
+  clickable,
+  onClickHandler,
+  ...rest
+}) => {
+  const cardContent = (
     <CardContent
       style={{
         width: "100%",
-        padding: "16px",
-        paddingLeft: "24px",
+        padding: "8px",
+        paddingLeft: "16px",
         WebkitBoxSizing: "border-box",
       }}
     >
@@ -30,18 +41,28 @@ export const PtCard = ({ title, subtitle, content, ...rest }) => (
       <div
         style={{
           width: "8px",
-          backgroundColor: "#ff9800",
+          backgroundColor: "#" + color,
           position: "absolute",
           top: "0",
           bottom: "0",
           left: "0",
         }}
-      />
+      >
+        {clickable || isMine ? null : (
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+            }}
+          />
+        )}
+      </div>
 
       {/*content*/}
       <p
         style={{
-          color: "#fff",
+          color: clickable || isMine ? "#fff" : "#999",
           margin: "0px",
           float: "right",
           textAlign: "right",
@@ -52,27 +73,46 @@ export const PtCard = ({ title, subtitle, content, ...rest }) => (
       {/*title*/}
       <p
         style={{
-          color: "#bbb",
+          color: clickable || isMine ? "#fff" : "#999",
           margin: "0px",
         }}
       >
-        <b
-          style={{
-            color: "#fff",
-          }}
-        >
-          {title}
-        </b>
+        <b>{title}</b>
         {" " + subtitle}
       </p>
     </CardContent>
-  </Card>
-);
+  );
 
-const mapStateToProps = (state) => {
-  return {
-    isAuthed: state.store.isAuthed,
-  };
+  return (
+    <Card
+      elevation={clickable ? 10 : 0}
+      style={{
+        backgroundColor: isMine ? "#" + color : "#555",
+        position: "relative",
+      }}
+    >
+      {clickable ? (
+        <CardActionArea
+          onClick={onClickHandler}
+          style={{
+            font: "unset",
+          }}
+        >
+          {cardContent}
+        </CardActionArea>
+      ) : isMine ? (
+        cardContent
+      ) : (
+        <div
+          style={{
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          {cardContent}
+        </div>
+      )}
+    </Card>
+  );
 };
 
 export const TransCard = compose(
@@ -130,7 +170,7 @@ export const TransCard = compose(
           }}
         >
           {t.points < 0
-            ? t.from + " 🛡️ " + t.to
+            ? t.from + " 🛠️ " + t.to
             : t.points > 0
             ? t.from + " ⚔️ by " + t.to
             : t.from + " 🤝 " + t.to}

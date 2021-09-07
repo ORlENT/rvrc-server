@@ -59,13 +59,15 @@ class Form extends Component {
   };
 
   componentDidMount() {
-    this.props.children.map(
-      (child) =>
-        child.props.id &&
-        this.setState({
-          [child.props.id]: child.props.value,
-        })
-    );
+    if (this.props.children.length > 1) {
+      this.props.children.map(
+        (child) =>
+          child.props.id &&
+          this.setState({
+            [child.props.id]: child.props.value,
+          })
+      );
+    }
   }
 
   componentDidUpdate() {

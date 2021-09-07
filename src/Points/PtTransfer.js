@@ -7,17 +7,19 @@ import {
   TransCard,
   SubmitButton,
   CenterBox,
-  Field,
   Form,
   Select,
 } from "../UI";
-import { chooseAttacker, clearAttacker, transferPt } from "../store/actions";
+import { chooseAttacker, clearAttacker, addPt } from "../store/actions";
 import ValidationError from "../errors/ValidationError";
 
 class PtTransfer extends Component {
   validate = (state) => {
     if (!state.groupname2) {
-      throw new ValidationError("groupname2", "Please select an Attacking OG");
+      throw new ValidationError(
+        "groupname2",
+        "Please select an Attacking OG to force an attack"
+      );
     }
   };
 
@@ -27,7 +29,7 @@ class PtTransfer extends Component {
       groups,
       chooseAttacker,
       clearAttacker,
-      transferPt,
+      addPt,
       myTransactions,
     } = this.props;
     return (
@@ -36,9 +38,22 @@ class PtTransfer extends Component {
         <CenterBox>
           <Header>Current Status</Header>
           <PtCard
+            key={myGroup.name}
             title={myGroup.name}
-            subtitle={myGroup.attacker ? "⚔️ by " + myGroup.attacker : ""}
+            subtitle={
+              myGroup.damaged
+                ? myGroup.attacker
+                  ? "🛠️ by " + myGroup.attacker
+                  : "🤕"
+                : myGroup.attacker
+                ? "⚔️ by " + myGroup.attacker
+                : ""
+            }
             content={myGroup.points}
+            link={null}
+            color={myGroup.color}
+            isMine={false}
+            clickable={false}
           />
         </CenterBox>
 
@@ -54,7 +69,7 @@ class PtTransfer extends Component {
                 disabled
                 choices={groups}
               ></Select>
-              <SubmitButton secondary>Clear Attacker</SubmitButton>
+              <SubmitButton secondary>Force Clear Attacker</SubmitButton>
             </Form>
           ) : (
             //ATTACKER NOT YET CHOSEN
@@ -65,7 +80,7 @@ class PtTransfer extends Component {
               groupname={myGroup.name}
             >
               <Select label="Attacking OG" id="groupname2" choices={groups} />
-              <SubmitButton>Lock in Attacker</SubmitButton>
+              <SubmitButton>Force Lock in Attacker</SubmitButton>
             </Form>
           )}
 
@@ -74,24 +89,33 @@ class PtTransfer extends Component {
             //ATTACKER CHOSEN
             <Form
               admin
-              onSubmit={transferPt}
+              onSubmit={addPt}
               onSuccess={clearAttacker}
+              point={1}
               groupname={myGroup.name}
               groupname2={myGroup.attacker}
             >
-              <Field id="point" type="number">
-                Points given to Attacking OG
-              </Field>
-              <SubmitButton>Transfer points</SubmitButton>
+              <SubmitButton success>Win</SubmitButton>
             </Form>
           ) : (
             //ATTACKER NOT YET CHOSEN
-            <Form admin>
-              <Field id="point" type="number" disabled>
-                Points given to Attacking OG
-              </Field>
-              <SubmitButton disabled>Transfer points</SubmitButton>
+            <SubmitButton disabled>Win</SubmitButton>
+          )}
+          {myGroup.attacker ? (
+            //ATTACKER CHOSEN
+            <Form
+              admin
+              onSubmit={addPt}
+              onSuccess={clearAttacker}
+              point={0}
+              groupname={myGroup.name}
+              groupname2={myGroup.attacker}
+            >
+              <SubmitButton error>Lose</SubmitButton>
             </Form>
+          ) : (
+            //ATTACKER NOT YET CHOSEN
+            <SubmitButton disabled>Lose</SubmitButton>
           )}
         </CenterBox>
 
@@ -120,9 +144,10 @@ const mapStateToProps = (state) => {
   const myGroupName = state.store.myGroup;
 
   const myGroup = groups.find((grp) => grp.name === myGroupName);
-  groups = groups
+  /* groups = groups
     .filter((grp) => isOG(grp))
-    .filter((grp) => grp.name !== myGroupName);
+    .filter((grp) => grp.name !== myGroupName); */
+  groups = groups.filter((grp) => isOG(grp));
 
   const transactions = state.store.transactions;
   const myTransactions = Object.entries(transactions)
@@ -144,7 +169,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     chooseAttacker: (state, props) => dispatch(chooseAttacker(state, props)),
     clearAttacker: (state, props) => dispatch(clearAttacker(state, props)),
-    transferPt: (state, props) => dispatch(transferPt(state, props)),
+    addPt: (state, props) => dispatch(addPt(state, props)),
   };
 };
 

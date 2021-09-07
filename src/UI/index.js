@@ -1,5 +1,6 @@
 import { NavButton, SubmitButton } from "./Button";
 import CenterBox from "./CenterBox";
+import SideBox from "./SideBox";
 import Header from "./Header";
 import Field from "./Field";
 import { PtCard, TransCard } from "./SummaryCard";
@@ -15,6 +16,7 @@ export {
   NavButton,
   SubmitButton,
   CenterBox,
+  SideBox,
   Header,
   Field,
   PtCard,

@@ -3,10 +3,13 @@ import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
 
 import AdminRoute from "./Routes/AdminRoute";
+import UserRoute from "./Routes/UserRoute";
 import PtList from "./Points/PtList";
 import PtTransfer from "./Points/PtTransfer";
-import { NavBar, LoadingScreen } from "./UI";
+import { LoadingScreen } from "./UI";
 import { fetchInfo } from "./store/actions";
+import AdminLogin from "./UI/AdminLogin";
+import UserLogin from "./UI/UserLogin";
 
 class Point extends Component {
   componentDidMount() {
@@ -23,44 +26,17 @@ class Point extends Component {
 
     //Render
     return (
-      <div
-        style={{
-          display: "grid",
-          minHeight: "100%",
-        }}
-      >
-        {/*Layer 1: NavBar*/}
-        <div
-          style={{
-            gridColumn: "1",
-            gridRow: "1",
-            zIndex: "1",
-            height: "60px",
-            position: "sticky",
-            top: "0",
-          }}
-        >
-          <NavBar />
-        </div>
-
-        {/*Layer 2: Page content */}
-        <div
-          style={{
-            gridColumn: "1",
-            gridRow: "1",
-            zIndex: "0",
-            paddingTop: "60px",
-          }}
-        >
-          <Switch>
-            <Route exact path={"/"} component={PtList} />
-            <AdminRoute
-              path={"/transfer"}
-              redirect={"/"}
-              component={PtTransfer}
-            />
-          </Switch>
-        </div>
+      <div>
+        <Switch>
+          <Route exact path={"/login"} component={UserLogin} />
+          <UserRoute exact path={"/"} redirect={"/login"} component={PtList} />
+          <Route exact path={"/admin"} component={AdminLogin} />
+          <AdminRoute
+            path={"/transfer"}
+            redirect={"/admin"}
+            component={PtTransfer}
+          />
+        </Switch>
       </div>
     );
   }

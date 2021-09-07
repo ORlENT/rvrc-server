@@ -2,12 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 
-const MyButton = ({ secondary, admin, children, ...rest }) => (
+const MyButton = ({ secondary, admin, children, success, error, ...rest }) => (
   <Button
     variant={secondary ? "outlined" : "contained"}
     color={admin ? "secondary" : "primary"}
     style={{
       width: "100%",
+      backgroundColor: success ? "#4caf50" : error ? "#f44336" : "",
     }}
     {...rest}
   >

@@ -1,5 +1,6 @@
 const initState = {
   isAuthed: false,
+  groupChosen: false,
   formSuccess: false,
   formFailed: false,
   groups: {},
@@ -33,6 +34,15 @@ const myReducer = (state = initState, action) => {
         ...state,
         isAuthed: false,
         myGroup: null,
+      };
+
+    case "GROUP_CHOSEN":
+      //console.log("Group chosen");
+      return {
+        ...state,
+        groupChosen: true,
+        formSuccess: true,
+        myGroup: action.myGroup,
       };
 
     case "FETCHED_GROUPS":
@@ -72,6 +82,14 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         formSuccess: true,
+      };
+
+    case "CHOOSE_ATTACKER_ERROR":
+      //console.log("Choosing attacker error");
+      //console.log(action.err.message);
+      return {
+        ...state,
+        formFailed: true,
       };
 
     case "TRANSFER_POINTS":

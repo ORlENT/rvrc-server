@@ -1,0 +1,76 @@
+/////////////////
+RVRC ORIENT
+/////////////////
+
+map with 7 houses, split into 6 OGs
+OG can attack each other by clicking other OGs to fight 
+if 1 OG lost to an attack, entire ship damaged, OGs cannot attack
+
+23-25 june
+
+7 ships 3 compartments
+
+RESTRCITIONS:
+SAME HOUSE SAME COLOR
+OG NAME FORMAT MUST BE A1 NAME
+
+stress testing
+
+	2 diff ogs click the same og at the same time
+		both go into zoom, later one overrides the first one on the system
+		IDEAL: first go into zoom, first go into system, later one gets error message
+		
+	2 ppl from same og click diff attacks at the same time
+		both go into zoom, both attacks in system
+		IDEAL: first go into zoom, first go into system, later one gets error message
+		
+	2 ppl from same og click same attack at the same time
+
+
+a #a5a5a5
+c #0081c7
+m #58c3c3
+o #f294ad
+p #ce3a41
+r #92bc28
+s #ffbe1c
+
+
+130:330 friday
+
+
+fire particle effects
+make ship images nicer
+fix/remove battle history
+mobile friendly display
+credits
+
+
+possible lag
+	loading screen takes a while
+	lags a little after loading screen
+
+
+greggymcdaddy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
